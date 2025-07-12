@@ -1,6 +1,6 @@
 "use client"
 
-import { auth, signOut } from "@/auth"
+import { signOut } from "@/auth"
 import { redirect } from "next/navigation"
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
@@ -15,39 +15,29 @@ import {
   Play,
   Pause,
   Eye,
-  Trash2,
   Activity,
   Zap,
   Globe,
-  Shield,
   Bell,
-  User,
   Search,
   ChevronRight,
   TrendingUp,
-  Users,
   Clock,
   CheckCircle,
   AlertCircle,
-  Layers,
   MessageSquare,
   Bot,
   Link,
   Sparkles,
-  ArrowRight,
   Loader2,
-  ExternalLink,
   Copy,
   Check,
   AlertTriangle,
-  PlayCircle,
-  StopCircle,
-  RefreshCw
+  PlayCircle
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -66,7 +56,7 @@ interface ServiceCredential {
     expires_at?: string
     bot_token?: string
     channel_id?: string
-    [key: string]: any
+    [key: string]: string | number | boolean | undefined
   }
   created_at: string
   updated_at: string
@@ -81,7 +71,7 @@ interface UserWorkflow {
       service: string
       query?: string
       subreddit?: string
-      [key: string]: any
+      [key: string]: string | number | boolean | undefined
     }
     filter: {
       prompt: string
@@ -90,7 +80,7 @@ interface UserWorkflow {
     action: {
       service: string
       channel_id?: string
-      [key: string]: any
+      [key: string]: string | number | boolean | undefined
     }
   }
   status: 'active' | 'paused' | 'draft'
@@ -108,7 +98,12 @@ interface SimulationResult {
   total_duration: number
   started_at: string
   completed_at: string
-  steps: any[]
+  steps: Array<{
+    step_name: string
+    status: string
+    duration: number
+    result?: string | number | boolean
+  }>
   summary: {
     reddit_posts_found: number
     posts_filtered: number
@@ -254,14 +249,6 @@ export default function DashboardPage() {
 
   const handleSignOut = async () => {
     await signOut({ redirectTo: "/" })
-  }
-
-  const toggleWorkflowStatus = (id: number) => {
-    setWorkflows(workflows.map(w =>
-      w.id === id
-        ? { ...w, status: w.status === "active" ? "paused" : "active" }
-        : w
-    ))
   }
 
   // Reddit OAuth connection
@@ -705,7 +692,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {userWorkflows.slice(0, 4).map((workflow, index) => (
+                    {userWorkflows.slice(0, 4).map((workflow) => (
                       <div key={workflow.id} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 border border-white/10">
                         <div className={`w-2 h-2 rounded-full ${workflow.status === "active" ? "bg-green-400" : "bg-gray-400"}`}></div>
                         <div className="flex-1">
@@ -804,7 +791,7 @@ export default function DashboardPage() {
                           <div>
                             <p className="text-sm text-gray-400">Trigger</p>
                             <p className="text-white text-sm">
-                              Reddit: "{workflow.config.trigger.query}"
+                              Reddit: &quot;{workflow.config.trigger.query}&quot;
                             </p>
                           </div>
                         </div>

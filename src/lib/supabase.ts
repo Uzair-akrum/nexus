@@ -63,7 +63,7 @@ export interface ServiceCredential {
     expires_at?: string
     bot_token?: string
     channel_id?: string
-    [key: string]: any
+    [key: string]: string | number | boolean | undefined
   }
   created_at: string
   updated_at: string
@@ -79,7 +79,7 @@ export interface UserWorkflow {
       service: string
       query?: string
       subreddit?: string
-      [key: string]: any
+      [key: string]: string | number | boolean | undefined
     }
     filter: {
       prompt: string
@@ -88,7 +88,7 @@ export interface UserWorkflow {
     action: {
       service: string
       channel_id?: string
-      [key: string]: any
+      [key: string]: string | number | boolean | undefined
     }
   }
   status: 'active' | 'paused' | 'draft'

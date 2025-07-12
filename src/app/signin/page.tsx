@@ -33,7 +33,7 @@ export default function SignInPage() {
       } else {
         router.push("/dashboard")
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred.")
       setLoading(false)
     }
@@ -159,7 +159,7 @@ export default function SignInPage() {
 
         <div className="text-center">
           <p className="text-sm text-muted-foreground font-[family-name:var(--font-inter)]">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/signup"
               className="text-primary hover:text-primary/80 font-medium transition-colors"

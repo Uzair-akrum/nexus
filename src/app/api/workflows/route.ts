@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 import { createSupabaseServiceClient } from '@/lib/supabase'
 
 // Get user's workflows
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await auth()
 
   if (!session?.user?.id) {
@@ -98,7 +98,12 @@ export async function PUT(request: NextRequest) {
 
     const supabase = createSupabaseServiceClient()
 
-    const updateData: any = {
+    const updateData: {
+      updated_at: string
+      name?: string
+      config?: unknown
+      status?: string
+    } = {
       updated_at: new Date().toISOString()
     }
 

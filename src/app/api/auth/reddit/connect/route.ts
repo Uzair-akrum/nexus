@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { generateState, signState, buildRedditAuthUrl } from '@/lib/oauth'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Generate state parameter for CSRF protection
     const state = generateState()

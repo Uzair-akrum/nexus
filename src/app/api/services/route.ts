@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 import { createSupabaseServiceClient } from '@/lib/supabase'
 
 // Get user's service credentials
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await auth()
 
   if (!session?.user?.id) {

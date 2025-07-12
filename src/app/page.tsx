@@ -296,7 +296,7 @@ export default function Home() {
                   <div className="bg-muted/50 rounded-lg p-4 text-sm font-mono">
                     <div className="text-muted-foreground mb-2">AI Filter:</div>
                     <div className="text-sm">
-                      "If a post mentions Apple or Google and has positive purchase intent..."
+                      &quot;If a post mentions Apple or Google and has positive purchase intent...&quot;
                     </div>
                   </div>
                 </CardContent>
@@ -319,8 +319,8 @@ export default function Home() {
                       <span className="font-semibold">Discord #leads</span>
                     </div>
                     <div className="text-muted-foreground">
-                      "🚨 High-intent lead detected:<br />
-                      User discussing Apple purchase..."
+                      &quot;🚨 High-intent lead detected:<br />
+                      User discussing Apple purchase...&quot;
                     </div>
                   </div>
                 </CardContent>
@@ -389,7 +389,7 @@ export default function Home() {
                     <h3 className="text-2xl font-bold mb-4">Built with the tools you already love.</h3>
                     <p className="text-muted-foreground mb-6">
                       Our tech stack includes Next.js, Vercel, and Postgres with a focus on performance and sub-second latency.
-                      It's a robust alternative to self-hosting a cron job + script.
+                      It&apos;s a robust alternative to self-hosting a cron job + script.
                     </p>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
@@ -562,9 +562,9 @@ export default function Home() {
                   Can I use this for more than just Reddit and Discord?
                 </AccordionTrigger>
                 <AccordionContent>
-                  Reddit and Discord are our MVP connectors to validate the core concept. We're actively
+                  Reddit and Discord are our MVP connectors to validate the core concept. We&apos;re actively
                   working on GitHub, Slack, Twitter, and Webhook integrations. Check our roadmap for
-                  upcoming connectors and vote on what you'd like to see next.
+                  upcoming connectors and vote on what you&apos;d like to see next.
                 </AccordionContent>
               </AccordionItem>
 
@@ -573,7 +573,7 @@ export default function Home() {
                   When will Nexus be available?
                 </AccordionTrigger>
                 <AccordionContent>
-                  We're currently in active development and expect to launch in early 2025.
+                  We&apos;re currently in active development and expect to launch in early 2025.
                   Join our waitlist to be the first to know when we go live and get early access to the platform.
                 </AccordionContent>
               </AccordionItem>

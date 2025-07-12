@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { buildRedditAuthUrl, generateState, signState } from '@/lib/oauth'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await auth()
 
   if (!session?.user?.id) {

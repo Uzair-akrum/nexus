@@ -63,7 +63,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt", // Using JWT since we're not using Prisma adapter
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       console.log("signIn callback:", { user: user?.email, provider: account?.provider })
 
       if (account?.provider === "google") {

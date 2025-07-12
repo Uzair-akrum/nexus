@@ -4,7 +4,7 @@ import { ExternalLink, Shield, AlertCircle, CheckCircle, XCircle } from 'lucide-
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-function StatusMessage({ searchParams }: { searchParams: any }) {
+function StatusMessage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const success = searchParams.success
   const error = searchParams.error
 
@@ -47,7 +47,7 @@ function StatusMessage({ searchParams }: { searchParams: any }) {
   return null
 }
 
-export default function CredentialsPage({ searchParams }: { searchParams: any }) {
+export default function CredentialsPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-4xl mx-auto">
