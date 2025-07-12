@@ -40,6 +40,16 @@ export default function Home() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleSignIn = () => {
+    // Redirect to the signin page
+    window.location.href = '/signin';
+  };
+
+  const handleJoinWaitlist = () => {
+    // Redirect to the signup page for account creation
+    window.location.href = '/signup';
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar */}
@@ -85,8 +95,8 @@ export default function Home() {
 
             {/* Desktop CTAs */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button variant="ghost">Sign In</Button>
-              <Button>Join Waitlist</Button>
+              <Button variant="ghost" onClick={handleSignIn}>Sign In</Button>
+              <Button onClick={handleJoinWaitlist}>Join Waitlist</Button>
             </div>
 
             {/* Mobile Menu */}
@@ -123,8 +133,8 @@ export default function Home() {
                     FAQ
                   </button>
                   <div className="pt-4 border-t">
-                    <Button variant="ghost" className="w-full mb-2">Sign In</Button>
-                    <Button className="w-full">Join Waitlist</Button>
+                    <Button variant="ghost" className="w-full mb-2" onClick={handleSignIn}>Sign In</Button>
+                    <Button className="w-full" onClick={handleJoinWaitlist}>Join Waitlist</Button>
                   </div>
                 </div>
               </SheetContent>
@@ -149,7 +159,7 @@ export default function Home() {
               Connect your apps, add a custom AI filter, and let Nexus handle the rest.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="text-lg px-8 py-6">
+              <Button size="lg" className="text-lg px-8 py-6" onClick={handleJoinWaitlist}>
                 <Rocket className="w-5 h-5 mr-2" />
                 Join Waitlist - Be First
               </Button>
@@ -593,7 +603,7 @@ export default function Home() {
             <p className="text-xl mb-8 text-background/80">
               Join our waitlist to get early access and be notified when we launch.
             </p>
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+            <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={handleJoinWaitlist}>
               <ArrowRight className="w-5 h-5 mr-2" />
               Join Waitlist Now
             </Button>
