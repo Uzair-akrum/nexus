@@ -733,14 +733,25 @@ export default function DashboardPage() {
                   <h2 className="text-3xl font-bold text-white mb-2">AI Workflows</h2>
                   <p className="text-gray-300">Manage your automated AI agents and workflows</p>
                 </div>
-                <Button
-                  onClick={() => setShowWorkflowModal(true)}
-                  className="bg-primary hover:bg-primary/90 neon-glow"
-                  disabled={!getServiceStatus('reddit_trigger') || !getServiceStatus('discord_action')}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Create Workflow
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => setShowWorkflowModal(true)}
+                    className="bg-primary hover:bg-primary/90 neon-glow"
+                    disabled={!getServiceStatus('reddit_trigger') || !getServiceStatus('discord_action')}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Workflow
+                  </Button>
+                  <Button
+                    onClick={() => window.location.href = '/dashboard/create-agent'}
+                    variant="outline"
+                    className="border-white/20 text-white hover:bg-white/10"
+                    title="Streamlined workflow creation with guided form"
+                  >
+                    <Bot className="mr-2 h-4 w-4" />
+                    Quick Create
+                  </Button>
+                </div>
               </div>
 
               {(!getServiceStatus('reddit_trigger') || !getServiceStatus('discord_action')) && (
@@ -849,14 +860,25 @@ export default function DashboardPage() {
                     <p className="text-gray-400 mb-4">
                       Create your first AI workflow to start automating tasks.
                     </p>
-                    <Button
-                      onClick={() => setShowWorkflowModal(true)}
-                      className="bg-primary hover:bg-primary/90"
-                      disabled={!getServiceStatus('reddit_trigger') || !getServiceStatus('discord_action')}
-                    >
-                      <Plus className="mr-2 h-4 w-4" />
-                      Create Workflow
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => setShowWorkflowModal(true)}
+                        className="bg-primary hover:bg-primary/90"
+                        disabled={!getServiceStatus('reddit_trigger') || !getServiceStatus('discord_action')}
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create Workflow
+                      </Button>
+                      <Button
+                        onClick={() => window.location.href = '/dashboard/create-agent'}
+                        variant="outline"
+                        className="border-white/20 text-white hover:bg-white/10"
+                        title="Streamlined workflow creation with guided form"
+                      >
+                        <Bot className="mr-2 h-4 w-4" />
+                        Quick Create
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               )}
