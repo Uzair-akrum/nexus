@@ -100,9 +100,29 @@ interface SimulationResult {
   completed_at: string
   steps: Array<{
     step_name: string
+    step: string
     status: string
     duration: number
     result?: string | number | boolean
+    details?: {
+      results_found?: number
+      sample_posts?: Array<{
+        title: string
+        subreddit: string
+        score: number
+        author: string
+      }>
+      ai_reasoning?: Array<{
+        decision: string
+        confidence: number
+        post_title: string
+        reasoning: string
+      }>
+      sample_message?: {
+        content: string
+      }
+      error?: string
+    }
   }>
   summary: {
     reddit_posts_found: number
@@ -150,29 +170,29 @@ export default function DashboardPage() {
     }
   })
 
-  // Legacy state for backward compatibility
-  const [workflows, setWorkflows] = useState([
-    {
-      id: 1,
-      name: "Reddit Lead Hunter",
-      trigger: "New posts in r/startup",
-      filter: "High-intent SaaS leads",
-      action: "Send to CRM",
-      status: "active",
-      runs: 1247,
-      lastRun: "2 minutes ago"
-    },
-    {
-      id: 2,
-      name: "Discord Community Monitor",
-      trigger: "Mentions in Discord",
-      filter: "Support requests",
-      action: "Create ticket",
-      status: "paused",
-      runs: 892,
-      lastRun: "1 hour ago"
-    }
-  ])
+  // Legacy state for backward compatibility - kept for potential future use
+  // const [workflows, setWorkflows] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Reddit Lead Hunter",
+  //     trigger: "New posts in r/startup",
+  //     filter: "High-intent SaaS leads",
+  //     action: "Send to CRM",
+  //     status: "active",
+  //     runs: 1247,
+  //     lastRun: "2 minutes ago"
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Discord Community Monitor",
+  //     trigger: "Mentions in Discord",
+  //     filter: "Support requests",
+  //     action: "Create ticket",
+  //     status: "paused",
+  //     runs: 892,
+  //     lastRun: "1 hour ago"
+  //   }
+  // ])
 
   // Load data on mount
   useEffect(() => {
@@ -634,7 +654,7 @@ export default function DashboardPage() {
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-400">Today's Runs</p>
+                        <p className="text-sm text-gray-400">Today&apos;s Runs</p>
                         <p className="text-2xl font-bold text-white">
                           {userWorkflows.filter(w => w.status === 'active').length * 12}
                         </p>
@@ -1015,9 +1035,9 @@ export default function DashboardPage() {
                     <div className="space-y-4">
                       <h4 className="text-white font-medium">Reddit Setup</h4>
                       <ol className="text-sm text-gray-300 space-y-2">
-                        <li>1. Click "Connect Reddit" to start OAuth flow</li>
+                        <li>1. Click &quot;Connect Reddit&quot; to start OAuth flow</li>
                         <li>2. Authorize Nexus to access your Reddit account</li>
-                        <li>3. You'll be redirected back with connection confirmed</li>
+                        <li>3. You&apos;ll be redirected back with connection confirmed</li>
                         <li>4. Use Reddit triggers in your workflows</li>
                       </ol>
                     </div>
@@ -1040,7 +1060,7 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-3xl font-bold text-white mb-2">Analytics & Insights</h2>
-                <p className="text-gray-300">Monitor your AI agents' performance and system health</p>
+                <p className="text-gray-300">Monitor your AI agents&apos; performance and system health</p>
               </div>
 
               <Tabs defaultValue="overview" className="space-y-4">
@@ -1434,7 +1454,7 @@ export default function DashboardPage() {
                                       <Clock className="h-4 w-4" />}
                                 </div>
                                 <div>
-                                  <h4 className="text-white font-medium">{step.name}</h4>
+                                  <h4 className="text-white font-medium">{step.step_name}</h4>
                                   <p className="text-sm text-gray-400">{step.duration}ms</p>
                                 </div>
                               </div>
@@ -1451,7 +1471,7 @@ export default function DashboardPage() {
                                       Found {step.details.results_found} posts, showing top 3:
                                     </p>
                                     <div className="space-y-2">
-                                      {step.details.sample_posts.slice(0, 3).map((post: any, idx: number) => (
+                                      {step.details.sample_posts.slice(0, 3).map((post, idx: number) => (
                                         <div key={idx} className="text-sm">
                                           <p className="text-white">{post.title}</p>
                                           <p className="text-gray-400">
@@ -1469,7 +1489,7 @@ export default function DashboardPage() {
                                       AI Analysis Results:
                                     </p>
                                     <div className="space-y-2">
-                                      {step.details.ai_reasoning.map((analysis: any, idx: number) => (
+                                      {step.details.ai_reasoning.map((analysis, idx: number) => (
                                         <div key={idx} className="text-sm">
                                           <div className="flex items-center space-x-2 mb-1">
                                             <Badge variant={analysis.decision === 'PASS' ? 'default' : 'secondary'}>

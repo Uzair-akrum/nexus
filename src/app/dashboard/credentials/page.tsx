@@ -47,7 +47,9 @@ function StatusMessage({ searchParams }: { searchParams: Record<string, string |
   return null
 }
 
-export default function CredentialsPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+export default async function CredentialsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-4xl mx-auto">
@@ -59,7 +61,7 @@ export default function CredentialsPage({ searchParams }: { searchParams: Record
         </div>
 
         <Suspense fallback={null}>
-          <StatusMessage searchParams={searchParams} />
+          <StatusMessage searchParams={params} />
         </Suspense>
 
         <div className="grid gap-6">

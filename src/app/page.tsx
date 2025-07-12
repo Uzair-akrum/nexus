@@ -432,7 +432,7 @@ export default function Home() {
               <TabsContent value="observability" className="mt-8">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div>
-                    <h3 className="text-2xl font-bold mb-4">Know exactly what's happening, always.</h3>
+                    <h3 className="text-2xl font-bold mb-4">Know exactly what&apos;s happening, always.</h3>
                     <p className="text-muted-foreground mb-6">
                       OpenTelemetry tracing for every agent run, structured logs, and latency metrics.
                       You have full visibility into your workflows with detailed performance insights.
