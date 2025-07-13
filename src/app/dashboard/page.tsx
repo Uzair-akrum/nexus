@@ -45,6 +45,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Chat } from "@/components/chat"
+import { DEFAULT_MODEL_NAME } from "@/lib/ai/models"
+import { generateUUID } from "@/lib/utils"
 
 interface ServiceCredential {
   id: number
@@ -146,6 +149,7 @@ export default function DashboardPage() {
   const [isSimulating, setIsSimulating] = useState(false)
   const [selectedWorkflow, setSelectedWorkflow] = useState<UserWorkflow | null>(null)
   const [copiedText, setCopiedText] = useState<string | null>(null)
+  const [chatId, setChatId] = useState(() => generateUUID())
 
   // Discord form state
   const [discordForm, setDiscordForm] = useState({
@@ -262,6 +266,7 @@ export default function DashboardPage() {
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: BarChart3 },
     { id: "workflows", label: "Workflows", icon: Brain },
+    { id: "chat", label: "AI Chat", icon: MessageSquare },
     { id: "connections", label: "Connections", icon: Plug },
     { id: "analytics", label: "Analytics", icon: TrendingUp },
     { id: "settings", label: "Settings", icon: Settings },
@@ -889,6 +894,18 @@ export default function DashboardPage() {
                   </CardContent>
                 </Card>
               )}
+            </div>
+          )}
+
+          {activeTab === "chat" && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-2">AI Chat</h2>
+                <p className="text-gray-300">Chat with your AI assistant powered by OpenAI GPT-4</p>
+              </div>
+              <div className="h-[calc(100vh-200px)]">
+                <Chat key={chatId} id={chatId} selectedModelId={DEFAULT_MODEL_NAME} />
+              </div>
             </div>
           )}
 
