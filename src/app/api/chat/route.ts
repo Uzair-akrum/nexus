@@ -9,6 +9,7 @@ import { customModel } from '@/lib/ai';
 import { models } from '@/lib/ai/models';
 import { regularPrompt } from '@/lib/ai/prompts';
 import { getWeather } from '@/lib/ai/tools/get-weather';
+import { searchReddit } from '@/lib/ai/tools/search-reddit';
 import { generateUUID, getMostRecentUserMessage } from '@/lib/utils';
 import { auth } from '@/auth';
 
@@ -57,6 +58,7 @@ export async function POST(request: Request) {
             messages: coreMessages,
             tools: {
               getWeather,
+              searchReddit,
             },
           });
           result.mergeIntoDataStream(dataStream);
