@@ -30,30 +30,55 @@ export const searchReddit = tool({
 
     const url = `${baseUrl}${endpoint}?${params.toString()}`;
 
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'RedditSearchTool/1.0',
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'RedditSearchTool/1.0',
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`Reddit API error: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`Reddit API error: ${response.status}`);
+      }
+
+      const text = await response.text();
+
+      // Check if response is HTML (blocked by Reddit)
+      if (text.includes('<html') || text.includes('<!DOCTYPE')) {
+        return {
+          posts: [],
+          error: 'Reddit is currently blocking requests. This might be due to rate limiting or anti-bot measures. Please try again later or use a different approach to access Reddit content.'
+        };
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        return {
+          posts: [],
+          error: 'Unable to parse Reddit response. The service might be temporarily unavailable.'
+        };
+      }
+
+      // Extract relevant post data
+      const posts = data.data?.children?.map((child: any) => ({
+        title: child.data.title,
+        subreddit: child.data.subreddit,
+        url: `https://reddit.com${child.data.permalink}`,
+        score: child.data.score,
+        numComments: child.data.num_comments,
+        createdUtc: child.data.created_utc,
+        summary: child.data.selftext?.substring(0, 200) || '',
+        id: child.data.id,
+      })) || [];
+
+      return { posts };
+    } catch (error) {
+      return {
+        posts: [],
+        error: `Failed to fetch Reddit data: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
     }
-
-    const data = await response.json();
-
-    // Extract relevant post data
-    const posts = data.data?.children?.map((child: any) => ({
-      title: child.data.title,
-      subreddit: child.data.subreddit,
-      url: `https://reddit.com${child.data.permalink}`,
-      score: child.data.score,
-      numComments: child.data.num_comments,
-      createdUtc: child.data.created_utc,
-      summary: child.data.selftext?.substring(0, 200) || '',
-      id: child.data.id,
-    })) || [];
-
-    return { posts };
   },
 }); 

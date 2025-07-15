@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, User, Code, Loader2, CheckCircle } from 'lucide-react';
+import { Bot, User, Code, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Message } from 'ai';
 import { WeatherDisplay } from '@/components/weather-display';
 import { RedditPostsDisplay } from '@/components/reddit-posts-display';
+import ReactMarkdown, { type Components } from "react-markdown";
 
 // Extend the Message type to include parts for forward compatibility
 interface ExtendedMessage extends Message {
@@ -52,6 +53,65 @@ type MessagePart = {
   data: string;
 } | {
   type: 'step-start';
+};
+
+const components: Components = {
+  // Override default elements with custom styling
+  p: ({ children }) => <p className="mb-4 first:mt-0 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="mb-4 list-disc pl-4">{children}</ul>,
+  ol: ({ children }) => <ol className="mb-4 list-decimal pl-4">{children}</ol>,
+  li: ({ children }) => <li className="mb-1">{children}</li>,
+  code: ({ className, children, ...props }) => (
+    <code className={`${className ?? ""} bg-muted px-1 py-0.5 rounded text-sm`} {...props}>
+      {children}
+    </code>
+  ),
+  pre: ({ children }) => (
+    <pre className="mb-4 overflow-x-auto rounded-lg bg-muted p-4">
+      {children}
+    </pre>
+  ),
+  a: ({ children, ...props }) => (
+    <a
+      className="text-primary underline hover:text-primary/80"
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+    >
+      {children}
+    </a>
+  ),
+  h1: ({ children }) => <h1 className="mb-4 text-2xl font-bold">{children}</h1>,
+  h2: ({ children }) => <h2 className="mb-3 text-xl font-bold">{children}</h2>,
+  h3: ({ children }) => <h3 className="mb-2 text-lg font-bold">{children}</h3>,
+  h4: ({ children }) => <h4 className="mb-2 text-base font-bold">{children}</h4>,
+  h5: ({ children }) => <h5 className="mb-1 text-sm font-bold">{children}</h5>,
+  h6: ({ children }) => <h6 className="mb-1 text-sm font-bold">{children}</h6>,
+  blockquote: ({ children }) => (
+    <blockquote className="mb-4 border-l-4 border-muted-foreground pl-4 italic">
+      {children}
+    </blockquote>
+  ),
+  table: ({ children }) => (
+    <div className="mb-4 overflow-x-auto">
+      <table className="w-full border-collapse border border-border">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
+  th: ({ children }) => (
+    <th className="border border-border p-2 text-left font-medium">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="border border-border p-2">{children}</td>
+  ),
+};
+
+const Markdown = ({ children }: { children: string }) => {
+  return <ReactMarkdown components={components}>{children}</ReactMarkdown>;
 };
 
 interface ChatMessageProps {
@@ -117,9 +177,9 @@ function MessagePartRenderer({ part }: { part: MessagePart }) {
   switch (part.type) {
     case 'text':
       return (
-        <p className="text-sm whitespace-pre-wrap">
-          {part.text}
-        </p>
+        <div className="text-sm">
+          <Markdown>{part.text}</Markdown>
+        </div>
       );
 
     case 'tool-invocation':
@@ -194,9 +254,6 @@ function ToolInvocationRenderer({ toolInvocation }: { toolInvocation: ToolInvoca
                     {getStateLabel()}
                   </Badge>
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  {isExpanded ? 'Hide' : 'Show'} details
-                </span>
               </Button>
             </CollapsibleTrigger>
 

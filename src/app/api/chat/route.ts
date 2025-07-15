@@ -38,6 +38,8 @@ export async function POST(request: Request) {
     const coreMessages = convertToCoreMessages(messages);
     const userMessage = getMostRecentUserMessage(coreMessages);
 
+    console.log('userMessage=========', userMessage)
+
     if (!userMessage) {
       return new Response('No user message found', { status: 400 });
     }
@@ -56,6 +58,7 @@ export async function POST(request: Request) {
             model: customModel(model.apiIdentifier),
             system: regularPrompt,
             messages: coreMessages,
+            maxSteps: 3,
             tools: {
               getWeather,
               searchReddit,
