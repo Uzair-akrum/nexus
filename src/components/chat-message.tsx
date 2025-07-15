@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Message } from 'ai';
 import { WeatherDisplay } from '@/components/weather-display';
+import { RedditPostsDisplay } from '@/components/reddit-posts-display';
 
 // Extend the Message type to include parts for forward compatibility
 interface ExtendedMessage extends Message {
@@ -221,6 +222,8 @@ function ToolInvocationRenderer({ toolInvocation }: { toolInvocation: ToolInvoca
                   <div className="text-xs bg-muted/50 p-2 rounded border">
                     {toolInvocation.toolName === 'getWeather' && typeof toolInvocation.result === 'object' ? (
                       <WeatherDisplay data={toolInvocation.result} />
+                    ) : toolInvocation.toolName === 'searchReddit' && toolInvocation.result?.posts ? (
+                      <RedditPostsDisplay posts={toolInvocation.result.posts} />
                     ) : typeof toolInvocation.result === 'string' ? (
                       <p className="whitespace-pre-wrap">{toolInvocation.result}</p>
                     ) : (
